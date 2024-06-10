@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour
     [Header("——— ENEMY HEALTH COMPONENTS.")]
     [SerializeField] private float maxHealth;
     [Header("(Don't put values ​​in 'currentHealth'. Viewing only.)")]
-    [SerializeField] private float currentHealth;
+    public float currentHealth;
 
     [Space(5)]
     [Header("——— ENEMY UI COMPONENTS.")]
