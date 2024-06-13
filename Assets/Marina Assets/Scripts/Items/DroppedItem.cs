@@ -11,7 +11,8 @@ public class DroppedItem : MonoBehaviour
     [SerializeField] private float initialMoveSpeed = 2.0f;
 
     void Start()
-    {
+    {       
+
         StartCoroutine(BounceThenMove(gameObject));
     }
 

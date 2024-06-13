@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SimpleMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 2.0f;
-    [SerializeField] private float distance = 5.0f;
+    //[SerializeField] private float distance = 5.0f;
     [SerializeField] private float blinkInterval = 0.1f;
 
     [SerializeField] private Image stunUIEffect;
@@ -30,20 +30,6 @@ public class SimpleMovement : MonoBehaviour
         stunUIEffect.gameObject.SetActive(false);
     }
 
-    #region ————— ON ENABLE AND DISABLE.
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
-    }
-
-    #endregion
-
     private void Update()
     {
         if (isStunned)
@@ -59,6 +45,8 @@ public class SimpleMovement : MonoBehaviour
                 return;
             }
         }
+
+        Move();
     }
 
     private void FixedUpdate()
