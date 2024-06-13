@@ -6,6 +6,7 @@ public class StateSubscriber : MonoBehaviour
 {
     [SerializeField] private Button skinnyState;
     [SerializeField] private Button strongState;
+    [SerializeField] private GameObject roguelikePanel;
 
     #region //Strong State delegate
     public delegate void OnStrongStateChosen();
@@ -17,19 +18,37 @@ public class StateSubscriber : MonoBehaviour
     public static event OnStrongStateChosen onSkinnyStateChosen;
     #endregion
 
+
     private void Awake() {
         skinnyState.onClick.AddListener(SkinnyStateSelected);
         strongState.onClick.AddListener(StrongStateSelected);
     }
+    private void Start() {
+        
+    }
     private void StrongStateSelected()
     {
-        Debug.Log("I'm Strong");
         onStrongStateChosen?.Invoke();
+        //strongState.interactable = false;
+        ButtonPresets();
     }
 
     private void SkinnyStateSelected()
     {
-        Debug.Log("I'm skinny");
         onSkinnyStateChosen?.Invoke();
+        //skinnyState.interactable = false;
+        ButtonPresets();        
     }
+
+    private void ButtonPresets()
+    {
+        Time.timeScale = 1;
+    }
+
+    private static void ResetGameplayEvent()
+    {
+        //reset gameplay event
+        CountDownTime.onGameSessionFinished.Invoke();
+    }
+
 }
