@@ -44,22 +44,22 @@ public class StateSubscriber : MonoBehaviour
     {
         strongerStateIndex++;
         StateChangerFilter();
-        IndexTest();
         ButtonPresets();
+        InterfaceInteractions.onCardActivated("Stronger");
     }
 
     private void SkinnyStateSelected()
     {
         skinnyStateIndex++;
         StateChangerFilter();
-        IndexTest();
-        ButtonPresets();        
+        ButtonPresets();  
+        InterfaceInteractions.onCardActivated("Faster");      
     }
     private void UtilityStatsSelected()
     {
         utilityStatsIndex++;
-        IndexTest();
-        ButtonPresets();        
+        ButtonPresets();     
+        InterfaceInteractions.onCardActivated("Utility");   
     }
 
     private void StateChangerFilter()
@@ -95,12 +95,6 @@ public class StateSubscriber : MonoBehaviour
 
     }
 
-    private void IndexTest()
-    {
-        Debug.Log(strongerStateIndex.ToString());
-        Debug.Log(skinnyStateIndex.ToString());
-        Debug.Log(utilityStatsIndex.ToString());
-    }
     private void ButtonPresets()
     {
         Time.timeScale = 1;
