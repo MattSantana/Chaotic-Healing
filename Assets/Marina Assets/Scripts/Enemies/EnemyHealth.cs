@@ -80,13 +80,14 @@ public class EnemyHealth : MonoBehaviour
         // Verifica se deve dropar um item
         if (Random.value <= itemDropChance)
         {
-            DropItem();
+            //DropCurrentRecipeItem();
+            DropRandomItem();
         }
 
         Destroy(gameObject, 2f); // Tempo de destruição depende da animação de morte
     }
 
-    private void DropItem()
+    private void DropCurrentRecipeItem()
     {
         // Verifica a receita atualmente selecionada para dropar os itens corretos
         Recipes currentRecipe = potionCrafting.GetCurrentRecipe(); // Obtém a receita atualmente selecionada
@@ -111,6 +112,30 @@ public class EnemyHealth : MonoBehaviour
                     {
                         Debug.LogWarning("Prefab não encontrado para o item: " + item);
                     }
+                }
+            }
+        }
+    }
+
+    public void DropRandomItem()
+    {
+        int randomRecipeIndex = Random.Range(0, potionCrafting.recipes.Length);
+        Recipes randomRecipe = potionCrafting.recipes[randomRecipeIndex];
+
+        foreach (string item in randomRecipe.requiredItems)
+        {
+            if (!potionCrafting.IsItemAlreadyDropped(item))
+            {
+                GameObject droppedObject = potionCrafting.GetItemPrefabByName(item);
+                if (droppedObject != null)
+                {
+                    Instantiate(droppedObject, transform.position, Quaternion.identity);
+                    potionCrafting.RegisterItemDrop(item);
+                    return; // Dropa apenas um item por vez
+                }
+                else
+                {
+                    Debug.LogWarning("Prefab não encontrado para o item: " + item);
                 }
             }
         }

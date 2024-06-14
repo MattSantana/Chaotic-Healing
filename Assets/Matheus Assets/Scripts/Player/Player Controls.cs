@@ -175,18 +175,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OpenCauldron"",
+                    ""name"": ""Z Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""7e231fb0-5d67-4b55-8668-dd82b62ab505"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""CraftingPotion"",
-                    ""type"": ""Button"",
-                    ""id"": ""3b76b5d4-f555-4f7c-807e-8c4c2b47183e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -219,22 +210,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a53a4964-7f68-49e5-b578-341b33f839e6"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""OpenCauldron"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""21b5e5b1-f1c6-4602-b924-86c4637fd7c8"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""CraftingPotion"",
+                    ""action"": ""Z Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -272,8 +252,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleInventory = m_UI.FindAction("ToggleInventory", throwIfNotFound: true);
-        m_UI_OpenCauldron = m_UI.FindAction("OpenCauldron", throwIfNotFound: true);
-        m_UI_CraftingPotion = m_UI.FindAction("CraftingPotion", throwIfNotFound: true);
+        m_UI_ZInteraction = m_UI.FindAction("Z Interaction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -382,15 +361,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_ToggleInventory;
-    private readonly InputAction m_UI_OpenCauldron;
-    private readonly InputAction m_UI_CraftingPotion;
+    private readonly InputAction m_UI_ZInteraction;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
         public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleInventory => m_Wrapper.m_UI_ToggleInventory;
-        public InputAction @OpenCauldron => m_Wrapper.m_UI_OpenCauldron;
-        public InputAction @CraftingPotion => m_Wrapper.m_UI_CraftingPotion;
+        public InputAction @ZInteraction => m_Wrapper.m_UI_ZInteraction;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -403,12 +380,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleInventory.started += instance.OnToggleInventory;
             @ToggleInventory.performed += instance.OnToggleInventory;
             @ToggleInventory.canceled += instance.OnToggleInventory;
-            @OpenCauldron.started += instance.OnOpenCauldron;
-            @OpenCauldron.performed += instance.OnOpenCauldron;
-            @OpenCauldron.canceled += instance.OnOpenCauldron;
-            @CraftingPotion.started += instance.OnCraftingPotion;
-            @CraftingPotion.performed += instance.OnCraftingPotion;
-            @CraftingPotion.canceled += instance.OnCraftingPotion;
+            @ZInteraction.started += instance.OnZInteraction;
+            @ZInteraction.performed += instance.OnZInteraction;
+            @ZInteraction.canceled += instance.OnZInteraction;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -416,12 +390,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleInventory.started -= instance.OnToggleInventory;
             @ToggleInventory.performed -= instance.OnToggleInventory;
             @ToggleInventory.canceled -= instance.OnToggleInventory;
-            @OpenCauldron.started -= instance.OnOpenCauldron;
-            @OpenCauldron.performed -= instance.OnOpenCauldron;
-            @OpenCauldron.canceled -= instance.OnOpenCauldron;
-            @CraftingPotion.started -= instance.OnCraftingPotion;
-            @CraftingPotion.performed -= instance.OnCraftingPotion;
-            @CraftingPotion.canceled -= instance.OnCraftingPotion;
+            @ZInteraction.started -= instance.OnZInteraction;
+            @ZInteraction.performed -= instance.OnZInteraction;
+            @ZInteraction.canceled -= instance.OnZInteraction;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -464,7 +435,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnToggleInventory(InputAction.CallbackContext context);
-        void OnOpenCauldron(InputAction.CallbackContext context);
-        void OnCraftingPotion(InputAction.CallbackContext context);
+        void OnZInteraction(InputAction.CallbackContext context);
     }
 }

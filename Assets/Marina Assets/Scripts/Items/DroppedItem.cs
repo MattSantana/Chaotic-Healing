@@ -10,10 +10,57 @@ public class DroppedItem : MonoBehaviour
     [SerializeField] private float moveDuration = 1.0f;
     [SerializeField] private float initialMoveSpeed = 2.0f;
 
-    void Start()
-    {       
+    [Space(5)]
+    [Header("——— COLLIDER COMPONENT.")]
+    [SerializeField] private float colliderActivationDelay = 1.0f;
+    private CircleCollider2D circleCollider;
+
+    [Space(5)]
+    [Header("——— MOVE TO PLAYER COMPONENT.")]
+    [SerializeField] private float attractionRadius = 3.0f;
+    [SerializeField] private float moveSpeed = 2.0f;
+
+    [SerializeField] private GameObject itemTip;
+
+    private bool canBeCollected = false;
+
+    private Transform playerTransform; // Referência ao transform do jogador
+    private bool isAttracted; // Indica se o item está sendo atraído pelo jogador
+
+    private void Awake()
+    {
+        circleCollider = GetComponent<CircleCollider2D>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    private void Start()
+    {
+        circleCollider.enabled = false;
+
+        itemTip.SetActive(false);
 
         StartCoroutine(BounceThenMove(gameObject));
+        StartCoroutine(ActivateColliderDelayed());
+    }
+
+    private void Update()
+    {
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        if (distanceToPlayer < attractionRadius)
+        {
+            if (!itemTip.activeSelf)
+            {
+                itemTip.SetActive(true);
+            }
+        }
+
+        else
+        {
+            if (itemTip.activeSelf)
+            {
+                itemTip.SetActive(false);
+            }
+        }
     }
 
     IEnumerator BounceThenMove(GameObject item)
@@ -48,5 +95,33 @@ public class DroppedItem : MonoBehaviour
         }
 
         yield break;
+    }
+
+    IEnumerator ActivateColliderDelayed()
+    {
+        yield return new WaitForSeconds(colliderActivationDelay);
+
+        circleCollider.enabled = true;
+        canBeCollected = true;
+    }
+
+    public bool CanBeCollected()
+    {
+        return canBeCollected;
+    }
+
+    public void MoveToThePlayer()
+    {
+        StartCoroutine(MoveTowardsPlayer());
+    }
+
+    private IEnumerator MoveTowardsPlayer()
+    {
+        while (Vector2.Distance(transform.position, playerTransform.position) > 0.1f)
+        {
+            Vector2 direction = (playerTransform.position - transform.position).normalized;
+            transform.Translate(direction * moveSpeed * Time.deltaTime);
+            yield return null;
+        }
     }
 }

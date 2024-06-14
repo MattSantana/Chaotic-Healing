@@ -2,9 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class InventoryItem
+{
+    public string itemName;
+    public Sprite icon;
+
+    public InventoryItem(string name, Sprite icon)
+    {
+        this.itemName = name;
+        this.icon = icon;
+    }
+}
+
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<CollectableItem> items = new List<CollectableItem>();
+    public List<InventoryItem> items = new List<InventoryItem>();
     [SerializeField] private int maxSlots = 6;
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private List<Image> inventorySlotIcons = new List<Image>();
@@ -19,7 +32,8 @@ public class Inventory : MonoBehaviour
     {
         if (items.Count < maxSlots)
         {
-            items.Add(item);
+            InventoryItem newItem = new InventoryItem(item.itemName, item.icon);
+            items.Add(newItem);
             AddItemToInventory(item.icon, item.itemName);
             return true;
         }
@@ -78,5 +92,18 @@ public class Inventory : MonoBehaviour
         {
             DestroyItem(itemName);
         }
+    }
+
+    public void DestroyAllItems()
+    {
+        foreach (var slot in inventorySlotIcons)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                Destroy(slot.transform.GetChild(0).gameObject);
+            }
+        }
+
+        items.Clear(); // Limpa a lista de itens
     }
 }

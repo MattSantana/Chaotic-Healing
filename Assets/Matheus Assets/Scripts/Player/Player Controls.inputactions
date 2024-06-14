@@ -153,18 +153,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenCauldron",
+                    "name": "Z Interaction",
                     "type": "Button",
                     "id": "7e231fb0-5d67-4b55-8668-dd82b62ab505",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "CraftingPotion",
-                    "type": "Button",
-                    "id": "3b76b5d4-f555-4f7c-807e-8c4c2b47183e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -197,22 +188,11 @@
                 {
                     "name": "",
                     "id": "a53a4964-7f68-49e5-b578-341b33f839e6",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "OpenCauldron",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "21b5e5b1-f1c6-4602-b924-86c4637fd7c8",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "CraftingPotion",
+                    "action": "Z Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

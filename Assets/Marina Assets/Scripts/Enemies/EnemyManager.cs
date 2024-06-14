@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     public bool IsPlayerStunned { get; private set; } = false;
     public float resumeMovementDelay = 1.0f;
 
-    private SimpleMovement player;
+    private PlayerNegativeEffects player;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<SimpleMovement>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerNegativeEffects>();
     }
 
     public void StunPlayer(float stunDuration)

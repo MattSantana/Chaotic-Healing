@@ -23,4 +23,32 @@ public class CauldronInventory : MonoBehaviour
             }
         }
     }
+
+    public void DestroyAllItems()
+    {
+        foreach (var slot in cauldronInventorySlots)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                Destroy(slot.transform.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    public void DestroyItem(string itemName)
+    {
+        for (int i = 0; i < cauldronInventorySlots.Count; i++)
+        {
+            Transform slotTransform = cauldronInventorySlots[i].transform;
+            if (slotTransform.childCount > 0)
+            {
+                Image itemImage = slotTransform.GetChild(0).GetComponent<Image>();
+                if (itemImage != null && itemImage.gameObject.name == itemName)
+                {
+                    Destroy(itemImage.gameObject);
+                    return;
+                }
+            }
+        }
+    }
 }
