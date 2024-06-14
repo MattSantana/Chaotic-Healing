@@ -38,14 +38,14 @@ public class GameStateHandler : MonoBehaviour
     {
         // apenas trocar os inputs para o new input system
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isIntroActive && currentState == State.Gameplay)
+        if (Input.GetKeyDown(KeyCode.X) && !isIntroActive && currentState == State.Gameplay)
         {
             tutorialPanel?.SetActive(true);
             tutorialPanel?.GetComponent<Animator>().CrossFadeInFixedTime("TutorialRising", 0.3f);
             currentState = State.Intro;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isIntroActive && currentState == State.Intro)
+        if (Input.GetKeyDown(KeyCode.X) && isIntroActive && currentState == State.Intro)
         {
             Time.timeScale = 1;
             tutorialPanel?.GetComponent<Animator>().CrossFadeInFixedTime("TutorialClosing", 0.3f);
