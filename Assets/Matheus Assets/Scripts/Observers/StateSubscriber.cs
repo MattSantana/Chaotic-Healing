@@ -9,6 +9,12 @@ public class StateSubscriber : MonoBehaviour
     [SerializeField] private Button utilityStats;
     [SerializeField] private GameObject roguelikePanel;
 
+
+    #region Start State delegate
+    public delegate void OnStartStateChosen();
+    public static event OnStartStateChosen onStartStateChosen;
+    #endregion
+
     #region //Strong State delegate
     public delegate void OnStrongStateChosen();
     public static event OnStrongStateChosen onStrongStateChosen;
@@ -16,12 +22,14 @@ public class StateSubscriber : MonoBehaviour
 
     #region Skinny State delegate
     public delegate void OnSkinnyStateChosen();
-    public static event OnStrongStateChosen onSkinnyStateChosen;
+    public static event OnSkinnyStateChosen onSkinnyStateChosen;
     #endregion
 
 
     #region stats manager controller 
-    private int strongerIndex;
+    private int strongerStateIndex = 0;
+    private int skinnyStateIndex = 0;
+    private int utilityStatsIndex = 0;
     #endregion
 
     private void Awake() {
@@ -34,26 +42,58 @@ public class StateSubscriber : MonoBehaviour
     }
     private void StrongStateSelected()
     {
-        //mudo a skin e atributos
-        onStrongStateChosen?.Invoke();
-
+        strongerStateIndex++;
+        StateChangerFilter();
         ButtonPresets();
+        InterfaceInteractions.onCardActivated("Stronger");
     }
 
     private void SkinnyStateSelected()
     {
-        //mudo a skin e atributos
-        onSkinnyStateChosen?.Invoke();
-
-        ButtonPresets();        
+        skinnyStateIndex++;
+        StateChangerFilter();
+        ButtonPresets();  
+        InterfaceInteractions.onCardActivated("Faster");      
     }
     private void UtilityStatsSelected()
     {
-        
-        //skinnyState.interactable = false;
-        ButtonPresets();        
+        utilityStatsIndex++;
+        ButtonPresets();     
+        InterfaceInteractions.onCardActivated("Utility");   
     }
 
+    private void StateChangerFilter()
+    {
+        //mudança visual apenas 
+        
+        if( strongerStateIndex > skinnyStateIndex && strongerStateIndex >= utilityStatsIndex)
+        {
+            // estado gordinho 
+
+            //mudo a skin e atributos
+            onStrongStateChosen?.Invoke();
+        }
+        else if( strongerStateIndex == skinnyStateIndex && strongerStateIndex >= utilityStatsIndex)
+        {
+            //estado de corpo normal 
+
+            onStartStateChosen?.Invoke();
+        }
+        else if( skinnyStateIndex == strongerStateIndex && skinnyStateIndex >= utilityStatsIndex)
+        {
+            //estado de corpo normal
+
+            onStartStateChosen?.Invoke();
+        }
+        else if( skinnyStateIndex > strongerStateIndex && skinnyStateIndex >= utilityStatsIndex )
+        {
+            // estado de corpo magrinho(faster)
+
+            //mudo a skin e atributos
+            onSkinnyStateChosen?.Invoke();
+        }
+
+    }
 
     private void ButtonPresets()
     {
