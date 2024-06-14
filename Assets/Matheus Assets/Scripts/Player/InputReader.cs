@@ -6,6 +6,7 @@ public class InputReader : MonoBehaviour
     private PlayerControls playerControls;
     private Inventory inventory;
     private PotionCrafting potionCrafting;
+    private PlayerInventory playerInventory;
 
     private Vector2 movement;
     private Vector2 lastMoveDirection;
@@ -15,6 +16,7 @@ public class InputReader : MonoBehaviour
         playerControls = new PlayerControls();
         inventory = FindObjectOfType<Inventory>();
         potionCrafting = FindObjectOfType<PotionCrafting>();
+        playerInventory = FindAnyObjectByType<PlayerInventory>();
     }
 
     private void Update() 
@@ -45,8 +47,9 @@ public class InputReader : MonoBehaviour
     {
         playerControls.Enable();
         playerControls.UI.ToggleInventory.performed += ToggleInventory;
-        playerControls.UI.OpenCauldron.performed += CreatePotion;
-        playerControls.UI.CraftingPotion.performed += Crafting;
+        playerControls.UI.ZInteraction.performed += CreatePotion;
+        playerControls.UI.ZInteraction.performed += Crafting;
+        playerControls.UI.ZInteraction.performed += CollectItem;
     }
 
     private void ToggleInventory(InputAction.CallbackContext context)
@@ -62,5 +65,10 @@ public class InputReader : MonoBehaviour
     private void Crafting(InputAction.CallbackContext context)
     {
         potionCrafting.Crafting();
+    }
+
+    private void CollectItem(InputAction.CallbackContext context)
+    {
+        playerInventory.CollectOrMoveClosestItem();
     }
 }

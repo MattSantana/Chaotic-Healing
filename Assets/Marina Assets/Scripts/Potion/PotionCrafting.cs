@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
+using MoreMountains.Tools;
 
 [System.Serializable]
 public class Recipes
@@ -11,6 +12,7 @@ public class Recipes
     [Space(5)]
     [Header("————— RECIPES.")]
     [Tooltip("Itens necessários para uma receita específica.")]
+    public string potionName;
     public string[] requiredItems;
     public GameObject[] requiredItemsIcons;
     public Sprite potionSprite;
@@ -28,31 +30,48 @@ public class PotionCrafting : MonoBehaviour
     [Space(5)]
     [Header("————— RECIPE PROGRESS COMPONENTS.")]
     [Tooltip("Imagem de progresso para mostrar o avanço da criação da poção.")]
-    [SerializeField] private Image progressImage;
+    [SerializeField] private MMProgressBar potionProgressBar;
+    [SerializeField] private float minValueProgressBar;
+    [SerializeField] private float maxValueProgressBar;
     [Tooltip("Texto de ajuda para mostrar mensagens ao jogador.")]
     [SerializeField] private TextMeshProUGUI helpText;
     [Tooltip("Velocidade de preenchimento da barra de progresso.")]
     [SerializeField] private float fillSpeed;
 
+    [Space(5)]
+    [Header("————— RECIPE TIPS COMPONENTS.")]
+    [SerializeField] private GameObject tipsCreating;
+    [SerializeField] private GameObject tipsCrafting;
+
     private bool canCraft = false; // Indica se a criação da poção pode começar.
     private float currentFillAmount = 0f; // Quantidade atual de preenchimento da barra de progresso.
     private Recipes currentRecipe; // Receita atualmente selecionada
 
+    public bool canCreate = false;
+    public bool potionWasSelected = false;
+    public bool finishPotion = false;
+
     private Cauldron cauldron; // Referência ao caldeirão para criar poções.
     private DisplayTextForSeconds displayTextController; // Controlador para exibir textos por alguns segundos.
     private CauldronInventory cauldronInventory; // Inventário do caldeirão para gerenciar os itens.
+    private PatientManager patientManager; // PatientManager.
+    private Movement playerMovement; // Referência ao script de movimento
 
     private void Awake()
     {
         cauldron = FindObjectOfType<Cauldron>();
         displayTextController = FindObjectOfType<DisplayTextForSeconds>();
         cauldronInventory = FindObjectOfType<CauldronInventory>();
+        patientManager = FindObjectOfType<PatientManager>();
+        playerMovement = FindObjectOfType<Movement>();
 
+        tipsCreating.SetActive(false);
+        tipsCrafting.SetActive(false);
     }
 
     private void Start()
     {
-        progressImage.gameObject.SetActive(false);
+        potionProgressBar.gameObject.SetActive(false);
     }
 
     #region ————— PROGRESS BAR (CRAFTING THE POTION).
@@ -60,14 +79,13 @@ public class PotionCrafting : MonoBehaviour
     // Atualiza o progresso da criação da poção
     private void UpdateProgress()
     {
-        if (currentFillAmount < 1f)
+        if (potionProgressBar.BarTarget < 1)
         {
-            // Incrementa a quantidade de preenchimento com base no tempo e na velocidade de preenchimento.
-            currentFillAmount += fillSpeed * Time.deltaTime;
-            currentFillAmount = Mathf.Clamp01(currentFillAmount);
+            currentFillAmount = Mathf.Max(currentFillAmount + fillSpeed, 0);
 
-            progressImage.fillAmount = currentFillAmount; // Atualiza a imagem de progresso.
+            potionProgressBar.UpdateBar(currentFillAmount, minValueProgressBar, maxValueProgressBar);
         }
+
         else
         {
             CompleteCrafting(); // Completa a criação da poção quando a barra está cheia.
@@ -77,13 +95,40 @@ public class PotionCrafting : MonoBehaviour
     // Finaliza o processo de criação da poção
     private void CompleteCrafting()
     {
+        finishPotion = true;
+
+        tipsCreating.SetActive(false);
+        tipsCrafting.SetActive(false);
+
         displayTextController.StartDisplayText(); // Mensagem de feedback para o jogador.
         helpText.text = "A receita está pronta!";
         canCraft = false; // Reseta a capacidade de criar
+        playerMovement.canMove = true; // Permite que o jogador volte a se mover
 
         DestroyCraftingItems(); // Destroi os itens nos slots de criação.
         DestroyUsedItemsInInventory(); // Destroi os itens usados do inventário do jogador inventário.
         cauldron.DropPotion(); // Cria a poção no caldeirão.
+        patientManager.ChangeSlotRaycast(); // Ativa o raycast para o paciente receber a poção.
+
+        ResetProgress(); // Reseta o progresso da barra.
+    }
+
+    // Finaliza o processo de criação da poção
+    public void FailCrafting()
+    {
+        finishPotion = true;
+
+        tipsCreating.SetActive(false);
+        tipsCrafting.SetActive(false);
+
+        canCraft = false; // Reseta a capacidade de criar
+        playerMovement.canMove = true; // Permite que o jogador volte a se mover
+
+        displayTextController.StartDisplayText(); // Mensagem de feedback para o jogador.
+        helpText.text = "Falhou! Seu paciente morreu.";
+
+        DestroyCraftingItems(); // Destroi os itens nos slots de criação.
+        DestroyUsedItemsInInventory(); // Destroi os itens usados do inventário do jogador inventário.
 
         ResetProgress(); // Reseta o progresso da barra.
     }
@@ -92,8 +137,14 @@ public class PotionCrafting : MonoBehaviour
     private void ResetProgress()
     {
         currentFillAmount = 0f;
-        progressImage.fillAmount = currentFillAmount;
-        progressImage.gameObject.SetActive(false); // Desativa a barra de progresso.
+
+        potionProgressBar.BarProgress = currentFillAmount;
+        potionProgressBar.BarTarget = currentFillAmount;
+        potionProgressBar.DelayedBarDecreasingProgress = currentFillAmount;
+        potionProgressBar.DelayedBarIncreasingProgress = currentFillAmount;
+
+        potionProgressBar.InitialFillValue = currentFillAmount;
+        potionProgressBar.gameObject.SetActive(false); // Desativa a barra de progresso.
     }
 
     #endregion
@@ -108,6 +159,19 @@ public class PotionCrafting : MonoBehaviour
             if (slot.transform.childCount > 0)
             {
                 Destroy(slot.transform.GetChild(0).gameObject); // Destroi o item dentro do slot
+            }
+        }
+    }
+
+    // Função para destruir os itens nos craftingSlots
+    public void DestroyItemsInCraftingSlots()
+    {
+        foreach (var slot in craftingSlots)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                // Destruir o item no slot
+                Destroy(slot.transform.GetChild(0).gameObject);
             }
         }
     }
@@ -165,6 +229,9 @@ public class PotionCrafting : MonoBehaviour
     {
         if (canCraft)
         {
+            tipsCreating.SetActive(false);
+            tipsCrafting.SetActive(true);
+
             UpdateProgress();
         }
     }
@@ -174,24 +241,32 @@ public class PotionCrafting : MonoBehaviour
     {
         string[] itemNames = GetItemNamesFromSlots(); // Pega os nomes dos itens nos slots de criação.
 
-        if (HasEmptySlots(itemNames))
+        if (!canCraft && canCreate && !finishPotion)
         {
-            ShowHelpText("Itens insuficientes.");
-            ReturnItemsToCauldronInventory(); // Retorna os itens ao inventário do caldeirão se um ou mais dos slots estiverem vazios.
-            return;
-        }
+            if (HasEmptySlots(itemNames))
+            {
+                ShowHelpText("Itens insuficientes.");
+                ReturnItemsToCauldronInventory(); // Retorna os itens ao inventário do caldeirão se um ou mais dos slots estiverem vazios.
+                return;
+            }
 
-        if (ValidateRecipe(itemNames))
-        {
-            ShowHelpText("Ingredientes prontos! Pode começar a criar sua receita.");
-            canCraft = true;
-            progressImage.gameObject.SetActive(true); // Ativa a barra de progresso
-            SetRaycastTarget(false); // Define o alvo do raycast como falso para impedir a retirada dos itens.
-        }
-        else
-        {
-            ShowHelpText("Não há essa poção no livro de receitas.");
-            ReturnItemsToCauldronInventory(); // Retorna os itens ao inventário do caldeirão se a receita não for válida.
+            if (ValidateRecipe(itemNames))
+            {
+                ShowHelpText("Ingredientes prontos! Pode começar a criar sua receita.");
+
+                canCraft = true;
+
+                playerMovement.canMove = false;
+
+                potionProgressBar.gameObject.SetActive(true); // Ativa a barra de progresso
+                SetRaycastTarget(false); // Define o alvo do raycast como falso para impedir a retirada dos itens.
+            }
+
+            else
+            {
+                ShowHelpText("Essa não é a receita correta!");
+                ReturnItemsToCauldronInventory(); // Retorna os itens ao inventário do caldeirão se a receita não for válida.
+            }
         }
     }
 
@@ -213,16 +288,10 @@ public class PotionCrafting : MonoBehaviour
     {
         HashSet<string> itemSet = new HashSet<string>(itemNames);
 
-        foreach (var recipe in recipes)
+        if (currentRecipe.requiredItems.Length == itemNames.Length)
         {
-            if (recipe.requiredItems.Length == itemNames.Length)
-            {
-                HashSet<string> requiredItemSet = new HashSet<string>(recipe.requiredItems);
-                if (itemSet.SetEquals(requiredItemSet))
-                {
-                    return true; // Retorna verdadeiro se os itens nos slots correspondem à receita
-                }
-            }
+            HashSet<string> requiredItemSet = new HashSet<string>(currentRecipe.requiredItems);
+            return itemSet.SetEquals(requiredItemSet);
         }
 
         return false;
@@ -231,6 +300,36 @@ public class PotionCrafting : MonoBehaviour
     #endregion
 
     #region ————— UTILITY METHODS.
+
+    private bool IsPatientAlive()
+    {
+        PatientHealth patientHealth = FindObjectOfType<PatientHealth>();
+
+        if (patientHealth != null)
+        {
+            return patientHealth.isPatientAlive;
+        }
+
+        else
+        {
+            Debug.Log("Paciente não encontrado");
+            return patientHealth.isPatientAlive;
+        }
+    }
+
+    public string GetCurrentPotionName()
+    {
+        if (currentRecipe != null)
+        {
+            return currentRecipe.potionName;
+        }
+        else
+        {
+            Debug.LogWarning("Receita atual não definida.");
+            return "";
+        }
+    }
+
 
     // Define o alvo do raycast para os itens nos slots de criação
     private void SetRaycastTarget(bool status)
@@ -274,12 +373,18 @@ public class PotionCrafting : MonoBehaviour
     public void ChangeRandomRecipe()
     {
         currentRecipe = GetRandomRecipe();
+
         if (currentRecipe != null)
         {
             Debug.Log("Nova receita aleatória selecionada:");
             Debug.Log("Receita: " + GetRecipeAsString(currentRecipe));
 
+            finishPotion = false;
+
             UpdatePatientSprite(currentRecipe.potionSprite);
+
+            tipsCreating.SetActive(true);
+            tipsCrafting.SetActive(false);
         }
 
         else
@@ -288,25 +393,10 @@ public class PotionCrafting : MonoBehaviour
         }
     }
 
-    private void UpdatePatientSprite(Sprite newSprite)
+    public bool IsCurrentRecipeCorrect()
     {
-        GameObject patientObject = GameObject.FindGameObjectWithTag("Patient");
-        if (patientObject != null)
-        {
-            PatientHealth patientHealth = patientObject.GetComponent<PatientHealth>();
-            if (patientHealth != null)
-            {
-                patientHealth.UpdateThoughtSprite(newSprite);
-            }
-            else
-            {
-                Debug.LogWarning("Componente PatientHealth não encontrado no paciente.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Paciente não encontrado com a tag 'Patient'.");
-        }
+        Recipes patientRecipe = patientManager.GetCurrentPatientRecipe(); // Obtém a receita que o paciente precisa
+        return currentRecipe == patientRecipe; // Verifica se a receita atual é igual à receita do paciente
     }
 
     private string GetRecipeAsString(Recipes recipe)
@@ -323,12 +413,95 @@ public class PotionCrafting : MonoBehaviour
         return recipeString;
     }
 
+    public Recipes GetRecipeByName(string itemName)
+    {
+        foreach (Recipes recipe in recipes)
+        {
+            foreach (string item in recipe.requiredItems)
+            {
+                if (item == itemName)
+                {
+                    return recipe;
+                }
+            }
+        }
+
+        return null; // Retorna null se não encontrar a receita com o nome do item
+    }
+
     // Retorna a receita aleatória atual
     public Recipes GetCurrentRecipe()
     {
         return currentRecipe;
     }
 
+    #endregion
+
+    #region ————— GET POTION SPRITE.
+
+    public Sprite GetCurrentPotionSprite()
+    {
+        if (currentRecipe != null)
+        {
+            return currentRecipe.potionSprite;
+        }
+
+        else
+        {
+            Debug.LogWarning("Receita atual não definida.");
+            return null;
+        }
+    }
+
+    private void UpdatePatientSprite(Sprite newSprite)
+    {
+        GameObject patientObject = GameObject.FindGameObjectWithTag("Patient");
+
+        if (patientObject != null)
+        {
+            PatientHealth patientHealth = patientObject.GetComponent<PatientHealth>();
+
+            if (patientHealth != null)
+            {
+                patientHealth.UpdateThoughtSprite(newSprite);
+            }
+
+            else
+            {
+                Debug.LogWarning("Componente PatientHealth não encontrado no paciente.");
+            }
+        }
+
+        else
+        {
+            Debug.LogWarning("Paciente não encontrado com a tag 'Patient'.");
+        }
+    }
+
+    public void UpdatePotionSprite(Sprite newSprite)
+    {
+        GameObject cauldronObject = GameObject.FindGameObjectWithTag("Potion");
+
+        if (cauldronObject != null)
+        {
+            Cauldron cauldron = cauldronObject.GetComponent<Cauldron>();
+
+            if (cauldron != null)
+            {
+                cauldron.UpdatePotionSprite(newSprite);
+            }
+
+            else
+            {
+                Debug.LogWarning("Componente Cauldron não encontrado no paciente.");
+            }
+        }
+
+        else
+        {
+            Debug.LogWarning("Poção não encontrado com a tag 'Potion'.");
+        }
+    }
 
     #endregion
 

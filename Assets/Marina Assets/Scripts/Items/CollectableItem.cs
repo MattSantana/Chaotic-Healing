@@ -12,12 +12,14 @@ public class CollectableItem : MonoBehaviour
 
     public enum ItemType
     {
-        Apple,
-        Orange,
-        Pear,
-        Watermelon,
-        RedPotion,
-        GreenPotion,
-        FlowerSeed
+        SlimeBall,
+        Leaf,
+        Bone,
+        Batwing,
+        Egg,
+        Stone,
+        Eye,
+        Fish,
+        Flower
     }
 }

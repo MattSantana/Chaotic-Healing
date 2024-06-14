@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Patient
+  - Potion
+  - CreatePotion
   layers:
   - Default
   - TransparentFX

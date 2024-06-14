@@ -132,10 +132,11 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator StunAndRetreat()
     {
         isStunning = true;
-        SimpleMovement player = playerTransform.GetComponent<SimpleMovement>();
+
+        PlayerNegativeEffects player = playerTransform.GetComponent<PlayerNegativeEffects>();
         if (player != null)
         {
-            player.Stun(stunDuration);
+            player.ApplyStun(stunDuration);
             EnemyManager.Instance.StunPlayer(stunDuration);
         }
 
