@@ -51,11 +51,13 @@ public class PlayerStateMachineSwitcher : MonoBehaviour
     private void OnEnable() {
         StateSubscriber.onSkinnyStateChosen+=SkinnyState;
         StateSubscriber.onStrongStateChosen+=StrongState;
+        StateSubscriber.onStartStateChosen+=StartState;
     }
 
     private void OnDisable() {
         StateSubscriber.onSkinnyStateChosen-=SkinnyState;
         StateSubscriber.onStrongStateChosen-=StrongState;
+        StateSubscriber.onStartStateChosen-=StartState;
     }
 }
 
