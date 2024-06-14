@@ -1,18 +1,27 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour
 {
     private PlayerControls playerControls;
+    private Inventory inventory;
+    private PotionCrafting potionCrafting;
 
     private Vector2 movement;
     private Vector2 lastMoveDirection;
 
-    private void Awake() {
+    private void Awake() 
+    {
         playerControls = new PlayerControls();
+        inventory = FindObjectOfType<Inventory>();
+        potionCrafting = FindObjectOfType<PotionCrafting>();
     }
-    private void Update() {
+
+    private void Update() 
+    {
         PlayerInput();
     }
+
     public Vector2 GetMovement()
     {
         return movement;
@@ -32,7 +41,26 @@ public class InputReader : MonoBehaviour
         } 
     }
 
-    private void OnEnable() {
+    private void OnEnable() 
+    {
         playerControls.Enable();
+        playerControls.UI.ToggleInventory.performed += ToggleInventory;
+        playerControls.UI.OpenCauldron.performed += CreatePotion;
+        playerControls.UI.CraftingPotion.performed += Crafting;
+    }
+
+    private void ToggleInventory(InputAction.CallbackContext context)
+    {
+        inventory.ToggleInventory();
+    }
+
+    private void CreatePotion(InputAction.CallbackContext context)
+    {
+        potionCrafting.CreatePotion();
+    }
+
+    private void Crafting(InputAction.CallbackContext context)
+    {
+        potionCrafting.Crafting();
     }
 }
