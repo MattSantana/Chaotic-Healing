@@ -20,6 +20,10 @@ public class StateSubscriber : MonoBehaviour
     #endregion
 
 
+    #region stats manager controller 
+    private int strongerIndex;
+    #endregion
+
     private void Awake() {
         skinnyState.onClick.AddListener(SkinnyStateSelected);
         strongState.onClick.AddListener(StrongStateSelected);
@@ -30,15 +34,17 @@ public class StateSubscriber : MonoBehaviour
     }
     private void StrongStateSelected()
     {
+        //mudo a skin e atributos
         onStrongStateChosen?.Invoke();
-        //strongState.interactable = false;
+
         ButtonPresets();
     }
 
     private void SkinnyStateSelected()
     {
+        //mudo a skin e atributos
         onSkinnyStateChosen?.Invoke();
-        //skinnyState.interactable = false;
+
         ButtonPresets();        
     }
     private void UtilityStatsSelected()
