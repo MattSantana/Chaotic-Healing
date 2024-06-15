@@ -32,12 +32,18 @@ public class Areas : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        PlaySound(clinic);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("WithoutEnemies"))
         {
             StartCoroutine(ChangeArea(dungeonArea, true));
             inEnemyArea = true;
+            PlaySound(dungeonSound);
             PlayerMove();
         }
 
@@ -45,7 +51,7 @@ public class Areas : MonoBehaviour
         {
             StartCoroutine(ChangeArea(enemiesArea, true));
             inDungeonArea = true;
-            PlaySound(dungeonSound);
+            PlaySound(enemiesSound);
             PlayerMove();
         }
 
@@ -53,7 +59,7 @@ public class Areas : MonoBehaviour
         {
             StartCoroutine(ChangeArea(clinicAfterEnemiesArea, false));
             inEnemyArea = false;
-            PlaySound(enemiesSound);
+            PlaySound(clinic);
             PlayerMove();
         }
 
