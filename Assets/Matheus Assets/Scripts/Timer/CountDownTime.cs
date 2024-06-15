@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CountDownTime : MonoBehaviour
 {
@@ -27,8 +28,8 @@ public class CountDownTime : MonoBehaviour
 
     private int goldMeta = 2000;
 
-    public int delayGameFinish;
-    public int startDelayGameFinish;
+    public float delayGameFinish;
+    public float startDelayGameFinish;
 
     void Start()
     {
@@ -81,9 +82,22 @@ public class CountDownTime : MonoBehaviour
             if(playerGold.currentGold >  goldMeta)
             {
                 gameWon.SetActive(true);
+
+                delayGameFinish-=Time.deltaTime;
+
+                if(delayGameFinish < 0)
+                {
+                    SceneManager.LoadScene(0);
+                }
+
             }
             else{
                 gameOver.SetActive(true);
+
+                if(delayGameFinish < 0)
+                {
+                    SceneManager.LoadScene(0);
+                }
             }
         }
 

@@ -22759,7 +22759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4393006680188457588
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31644,9 +31644,13 @@ MonoBehaviour:
   startingTime: 300
   countDownText: {fileID: 2733004509343122931}
   timesUpObj: {fileID: 5478676052341385023}
+  gameOver: {fileID: 6509233389961241858}
+  gameWon: {fileID: 5013143696455912546}
   backGroundMusic: {fileID: 0}
   gameSections: 0
   gameSessTransitionTime: 0.7
+  delayGameFinish: 5
+  startDelayGameFinish: 0
 --- !u!1 &6509233389961241858
 GameObject:
   m_ObjectHideFlags: 0
