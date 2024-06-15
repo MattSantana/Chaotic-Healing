@@ -13448,7 +13448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6154531298610563483
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14019,7 +14019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2091979909986934248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14069,7 +14069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 74f753c03a9c07645886bb9350712773, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20d27d34447c71f4ab3e60b810097273, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24338,7 +24338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 168, y: 2.2000122}
+  m_AnchoredPosition: {x: 168, y: 15}
   m_SizeDelta: {x: -426.5, y: -152.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1308744524702155581
@@ -24369,9 +24369,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Eu sou o texto de tutorial, muito prazer, como vai o senhor? Espero que
-    esteja bem, tenha um \xF3timo dia, sou um \xF3timo gato curandeiro ent confia
-    no pai."
+  m_text: There you can also find which Upgrades you'd pick up, and which one is
+    currently avaiable. Remember, the cards gives you different powers. Chose well!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2d2552d8a2403914a9c0a376763b818f, type: 2}
   m_sharedMaterial: {fileID: -8610808207312408033, guid: 2d2552d8a2403914a9c0a376763b818f, type: 2}
@@ -49148,7 +49147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -146.79999, y: 2.2000122}
+  m_AnchoredPosition: {x: -146.79999, y: 15}
   m_SizeDelta: {x: -426.5, y: -152.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4009562986486224506
@@ -49179,9 +49178,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Eu sou o texto de tutorial, muito prazer, como vai o senhor? Espero que
-    esteja bem, tenha um \xF3timo dia, sou um \xF3timo gato curandeiro ent confia
-    no pai."
+  m_text: 'Hey dude, i''m the tutorial text! I''m glad to meet you! Just a little
+    tip, you can press R whener you want to see the recepies that you must do. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2d2552d8a2403914a9c0a376763b818f, type: 2}
   m_sharedMaterial: {fileID: -8610808207312408033, guid: 2d2552d8a2403914a9c0a376763b818f, type: 2}

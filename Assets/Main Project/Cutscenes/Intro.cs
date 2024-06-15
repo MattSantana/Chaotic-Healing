@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Intro : MonoBehaviour
 {
@@ -41,6 +42,10 @@ public class Intro : MonoBehaviour
         {
             Destroy (Image2);
             novoTexto = "Willing to pursue this amazing artifact, The Healer Cat is now open for business";
+        }
+        if(cena < 3)
+        {
+            SceneManager.LoadScene(2);
         }
         _title.text = novoTexto;
         cena += 1;

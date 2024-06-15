@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Project/Main Scenes/MainMenu.unity
     guid: 9ea82d12e7cd7c84aa45bc1cdedb6a4b
+  - enabled: 1
+    path: Assets/Main Project/Cutscenes/Intro.unity
+    guid: 25d1c0b6ac8cd2644b1e8eaf9a0cf967
+  - enabled: 1
+    path: Assets/Main Project/Main Scenes/Consultorio.unity
+    guid: c45caad2b79205746954222a83a8a9f6
   m_configObjects: {}
