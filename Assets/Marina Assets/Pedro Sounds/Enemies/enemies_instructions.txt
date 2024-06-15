@@ -1,0 +1,2 @@
+enemy_hurt - 2 é pra tocar quando o inimigo tomar dano, recomendo baixar um pouco o volume do audio 
+

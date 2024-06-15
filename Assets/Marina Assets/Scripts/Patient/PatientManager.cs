@@ -17,6 +17,11 @@ public class PatientManager : MonoBehaviour
 
     [SerializeField] private GameObject cauldronInventorySlots;
 
+    [Space(5)]
+    [Header("————— AUDIO VARIABLES.")]
+    [SerializeField] private AudioClip patientCureSound; // Som de cura do paciente
+    private AudioSource audioSource;
+
     public bool canSpawnPatient = true;
 
     private PotionCrafting potionCrafting;
@@ -26,6 +31,8 @@ public class PatientManager : MonoBehaviour
     {
         potionCrafting = FindObjectOfType<PotionCrafting>();
         inventory = FindObjectOfType<Inventory>();
+
+        audioSource = GetComponent<AudioSource>(); // Obtém a referência ao componente AudioSource
     }
 
     private void Start()
@@ -72,6 +79,12 @@ public class PatientManager : MonoBehaviour
             {
                 patientSlotImage.raycastTarget = false;
                 patientTips.SetActive(false);
+
+                // Tocar som de cura
+                if (patientCureSound != null && audioSource != null)
+                {
+                    audioSource.PlayOneShot(patientCureSound);
+                }
 
                 // Remove o item do inventário do jogador
                 inventory.DestroyItem(slotItemName);

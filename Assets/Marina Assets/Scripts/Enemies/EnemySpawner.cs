@@ -11,19 +11,43 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnInterval = 5f; // Intervalo de tempo entre spawns
     private float spawnTimer = 0f; // Temporizador para controle do intervalo de spawn
 
+    private Areas areasScript;
+
     private void Start()
     {
         spawnTimer = spawnInterval; // Começa com o timer completo para o primeiro spawn
+
+        areasScript = FindObjectOfType<Areas>();
     }
 
     private void Update()
     {
-        // Conta o tempo para o próximo spawn
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0)
+        if (areasScript != null)
         {
-            SpawnEnemies(); // Realiza o spawn dos inimigos
-            spawnTimer = spawnInterval; // Reseta o temporizador
+            if (areasScript.inEnemyArea)
+            {
+                spawnTimer -= Time.deltaTime;
+                if (spawnTimer <= 0)
+                {
+                    SpawnEnemies(); // Realiza o spawn dos inimigos
+                    spawnTimer = spawnInterval; // Reseta o temporizador
+                }
+            }
+
+            else
+            {
+                DestroyAllEnemies();
+            }
+        }
+    }
+
+    public void DestroyAllEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
         }
     }
 

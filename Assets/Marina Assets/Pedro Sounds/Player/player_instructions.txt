@@ -1,0 +1,27 @@
+body_slam é quando o player da a barrigada 
+
+body_slam_when_hit é quando o player acerta a barrigada em algum inimigo
+
+dagger_hit é o ataque do player quando ele esta na forma neutra e com sua variação o dagger_hit2
+
+dash é quando ele esta na forma agil 
+
+grab_pot é pra quando o player terminar a poção e ela "popar" no mapa ou no inventario (n sei como está)
+
+pick_up_item é pra quando o player pega um item do chão
+
+pick_up_item2 é uma variação pro pick_up_item
+
+player_steps seria pros passos, eu acharia muito legal se fosse possível mudar a velocidade de ativação do audio dependendo da forma do player, quando fat: mais lento quando agil: mais rapido e neutro algo no meio ali
+
+scratch_hit1 e 2 é pra quando o player ta na forma agil e ele atacar
+
+stomp_start é o pulo que ele dá pro ar
+
+stomp_end é quando ele finalmente cai no chão, talvez tenha que por um pouco atrasado o audio pois rola uns mini efeito antes, so testando mesmo pra saber
+
+smashing_caldron é pra quando o player estiver apertando várias vezes pra completar a poção
+
+trash_item é pra quando o player jogar o item no lixo
+
+scream_cat é pra quando o player cair

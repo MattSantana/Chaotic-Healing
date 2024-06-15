@@ -1,0 +1,5 @@
+healing_patient é pra quando o jogador der a poção pro paciente
+
+patient_dying é pra quando acabar o tempo e o paciente morrer
+
+patient_voice 1-4 é pra ser ativada logo após quando o paciente é curado/ o healing_patiente termina e dispara uma dessas quatro variações 

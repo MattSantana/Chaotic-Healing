@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 514465613790498243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0.258, z: 1}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4797,7 +4797,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5222,7 +5222,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5330188, g: 1, b: 0.9281912, a: 0.29803923}
+      maxColor: {r: 0.5330188, g: 1, b: 0.9281912, a: 0.6156863}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5286,7 +5286,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5605,7 +5605,7 @@ ParticleSystem:
     gravitySource: 0
     maxNumParticles: 1
     customEmitterVelocity: {x: 0, y: 0, z: 0}
-    size3D: 1
+    size3D: 0
     rotation3D: 0
     gravityModifier:
       serializedVersion: 2
@@ -6367,8 +6367,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -6486,7 +6486,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 21300000, guid: 313bc8647e1167e48b0a6fd77cf9a68a, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -9796,7 +9796,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9941,4 +9941,10 @@ MonoBehaviour:
   maxValueProgressBar: 100
   thoughtSpriteRenderer: {fileID: 4019114876943450901}
   thought: {fileID: 5023210265818422344}
+  patientDeathSound: {fileID: 8300000, guid: 8ba01a327d3d82a408c80e55c61204d1, type: 3}
+  patientCureSounds:
+  - {fileID: 8300000, guid: 4a799aafbe67ffe43b4c2f5f794c4a5b, type: 3}
+  - {fileID: 8300000, guid: 929f8b7b83b82da41a85e9db2849b977, type: 3}
+  - {fileID: 8300000, guid: e79d3b6c54e4f4e49a65afe0f514d199, type: 3}
+  - {fileID: 8300000, guid: ad95c83a80053014b9cedf1cc7555c08, type: 3}
   isPatientAlive: 0

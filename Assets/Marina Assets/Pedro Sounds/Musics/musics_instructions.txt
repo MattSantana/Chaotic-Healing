@@ -1,0 +1,6 @@
+combat_area_dungeon será pra tocar na area em que tiver mais monstros
+e consequentemente a area em que o player quando fat ficar mais forte
+
+obstacles_area será tocada na area em que tiver mais obstáculos
+
+healing_area é a area padrão 

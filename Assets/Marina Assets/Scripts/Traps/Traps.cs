@@ -31,6 +31,11 @@ public class Traps : MonoBehaviour
     [SerializeField] private float arrowSlowMultiplier = 0.5f;
     [SerializeField] private float arrowSlowTimeEffect = 2f;
 
+    [Space(5)]
+    [Header("————— TRAP: Arrow Interval.")]
+    [SerializeField] private float fireInterval = 3f;
+    private bool isFiring = false;
+
     private Inventory playerInventory;
     private CauldronInventory cauldronInventory;
     private ObstaclesArea obstaclesArea;
@@ -130,6 +135,41 @@ public class Traps : MonoBehaviour
     #endregion
 
     #region ————— ARROW.
+
+    private IEnumerator Start()
+    {
+        if (trapType == TrapType.ArrowTrap)
+        {
+            while (true)
+            {
+                if (!isFiring)
+                {
+                    isFiring = true;
+                    yield return StartCoroutine(FireArrow());
+                    yield return new WaitForSeconds(fireInterval);
+                    isFiring = false;
+                }
+                yield return null;
+            }
+        }
+    }
+
+    private IEnumerator FireArrow()
+    {
+        while (true)
+        {
+            GameObject arrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+            Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
+
+            // Mover a flecha para frente
+            rb.velocity = -transform.up * arrowSpeed;
+
+            yield return new WaitForSeconds(destroyDelay);
+
+            Destroy(arrow);
+        }
+    }
+
     private IEnumerator FireArrow(Movement playerMovement)
     {
         GameObject arrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);

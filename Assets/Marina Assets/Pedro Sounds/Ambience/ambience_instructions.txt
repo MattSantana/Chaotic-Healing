@@ -1,0 +1,1 @@
+ambience_caldron quando o player estiver longe o audio tocar mais baixo e quando estiver mais perto tocar um pouco mais alto, o audio nao precisa ser muito alto, é só pra dar um sonzinho de fundo de um cozimento 

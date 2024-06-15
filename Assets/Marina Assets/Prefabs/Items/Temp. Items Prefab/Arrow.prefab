@@ -177,6 +177,7 @@ MonoBehaviour:
   disableDuration: 2
   arrowPrefab: {fileID: 0}
   arrowSpeed: 5
-  destroyDelay: 2
+  destroyDelay: 1
   arrowSlowMultiplier: 0.5
   arrowSlowTimeEffect: 2
+  fireInterval: 3

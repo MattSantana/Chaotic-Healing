@@ -8,6 +8,11 @@ TagManager:
   - Patient
   - Potion
   - CreatePotion
+  - WithEnemies
+  - WithoutEnemies
+  - DropItem
+  - ClinicEnemies
+  - ClinicDungeon
   layers:
   - Default
   - TransparentFX

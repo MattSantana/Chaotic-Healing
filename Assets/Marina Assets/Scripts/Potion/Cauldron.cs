@@ -9,6 +9,7 @@ public class Cauldron : MonoBehaviour
     [SerializeField] private GameObject cauludronRecipeSlots;
     [SerializeField] private GameObject cauldronInventorySlots;
     [SerializeField] private ParticleSystem cauldronSmoke;
+    [SerializeField] private AudioSource audioSource; // Referência ao AudioSource para tocar o som
 
     [Space(5)]
     [Header("——— ITEM DROP COMPONENTS.")]
@@ -80,6 +81,12 @@ public class Cauldron : MonoBehaviour
             cauludronRecipeSlots.SetActive(true);
             cauldronInventorySlots.SetActive(true);
 
+            if (audioSource != null)
+            {
+                audioSource.volume = 1f; // Ajusta o volume para o máximo ao entrar na área
+                audioSource.Play(); // Toca o som
+            }
+
             cauldronSmoke.Play();
         }
     }
@@ -91,7 +98,26 @@ public class Cauldron : MonoBehaviour
             cauludronRecipeSlots.SetActive(false);
             cauldronInventorySlots.SetActive(false);
 
+            if (audioSource != null)
+            {
+                StartCoroutine(FadeOutAudio()); // Inicia a rotina para diminuir o volume gradualmente
+            }
+
             cauldronSmoke.Stop();
         }
+    }
+
+    private IEnumerator FadeOutAudio()
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / 1f; // Diminui o volume gradualmente em 1 segundo
+            yield return null;
+        }
+
+        audioSource.Stop(); // Para o áudio quando o volume chegar a zero
+        audioSource.volume = startVolume; // Restaura o volume original para futuras interações
     }
 }

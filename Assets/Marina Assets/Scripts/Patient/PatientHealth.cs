@@ -34,6 +34,12 @@ public class PatientHealth : MonoBehaviour
     [SerializeField] private SpriteRenderer thoughtSpriteRenderer;
     [SerializeField] private GameObject thought;
 
+    [Space(5)]
+    [Header("————— AUDIO VARIABLES.")]
+    [SerializeField] private AudioClip patientDeathSound; // Som de morte do paciente
+    [SerializeField] private AudioClip[] patientCureSounds; // Array de sons de cura do paciente
+    private AudioSource audioSource;
+
     private bool isPatientActive = false;
     [HideInInspector] public bool isPatientAlive = false;
 
@@ -50,6 +56,8 @@ public class PatientHealth : MonoBehaviour
         cauldronInventory = FindObjectOfType<CauldronInventory>();
         potionCrafting = FindObjectOfType<PotionCrafting>();
         patientManager = FindObjectOfType<PatientManager>();
+
+        audioSource = GetComponent<AudioSource>(); // Obtém a referência ao componente AudioSource
     }
 
     private void Start()
@@ -125,6 +133,13 @@ public class PatientHealth : MonoBehaviour
             aliveParticle.Play();
         }
 
+        // Tocar som de cura aleatório
+        if (patientCureSounds != null && patientCureSounds.Length > 0 && audioSource != null)
+        {
+            AudioClip randomCureSound = patientCureSounds[Random.Range(0, patientCureSounds.Length)];
+            audioSource.PlayOneShot(randomCureSound);
+        }
+
         Debug.Log("O paciente sobreviveu!");
         isPatientActive = false;
         thought.SetActive(false);
@@ -143,6 +158,12 @@ public class PatientHealth : MonoBehaviour
         if (deathParticle != null)
         {
             deathParticle.Play();
+        }
+
+        // Tocar som de morte do paciente
+        if (patientDeathSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(patientDeathSound);
         }
 
         Debug.Log("O paciente morreu!");

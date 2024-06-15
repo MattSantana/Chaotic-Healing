@@ -1,0 +1,7 @@
+open_menu é pra quando o player apertar start ou aparecer as cartas pra escolher
+
+close_menu é o oposto de open, quando o player sai do start
+
+hover é pra quando o jogador estiver mexendo entre as opções
+
+nextpage é pra mudar de pagina
