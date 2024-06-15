@@ -19,14 +19,8 @@ public class Inventory : MonoBehaviour
 {
     public List<InventoryItem> items = new List<InventoryItem>();
     [SerializeField] private int maxSlots = 6;
-    [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private List<Image> inventorySlotIcons = new List<Image>();
     [SerializeField] private Image imagePrefab;
-
-    private void Start()
-    {
-        inventoryPanel.SetActive(false);
-    }
 
     public bool AddItem(CollectableItem item)
     {
@@ -58,11 +52,6 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
-    }
-
-    public void ToggleInventory()
-    {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
     }
 
     public void DestroyItem(string itemName)

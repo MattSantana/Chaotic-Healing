@@ -51,7 +51,6 @@ public class InputReader : MonoBehaviour
         playerControls.Enable();
         playerControls.Attack.Special.performed += SpecialAttack;
         playerControls.Attack.Normal.performed += NormalAttack;
-        playerControls.UI.ToggleInventory.performed += ToggleInventory;
         playerControls.UI.ZInteraction.performed += CreatePotion;
         playerControls.UI.ZInteraction.performed += Crafting;
         playerControls.UI.ZInteraction.performed += CollectItem;
@@ -68,11 +67,6 @@ public class InputReader : MonoBehaviour
         if(combat.isSlaming) {return;}
 
         combat.NormalAttack();
-    }
-
-    private void ToggleInventory(InputAction.CallbackContext context)
-    {
-        inventory.ToggleInventory();
     }
     
     private void CreatePotion(InputAction.CallbackContext context)

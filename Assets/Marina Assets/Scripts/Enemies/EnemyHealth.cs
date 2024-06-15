@@ -39,19 +39,6 @@ public class EnemyHealth : MonoBehaviour
         potionCrafting = FindObjectOfType<PotionCrafting>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P)) // Apenas para testes, você pode remover isso depois
-        {
-            TakingDamage(damageTaken);
-        }
-
-        if (Input.GetKeyDown(KeyCode.O)) // Apenas para testes, você pode remover isso depois
-        {
-            Die();
-        }
-    }
-
     public void TakingDamage(float amount)
     {
         if (currentHealth <= 0)
