@@ -8,7 +8,10 @@ public class CountDownTime : MonoBehaviour
     [SerializeField] private float startingTime = 120f;
     [SerializeField] private TextMeshProUGUI countDownText;
     [SerializeField] private GameObject timesUpObj;
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameObject gameWon;
     [SerializeField] private AudioSource backGroundMusic;
+    private PlayerGold playerGold;
     private GameObject player;
 
     private GameStateHandler gameStateHandler;
@@ -22,12 +25,19 @@ public class CountDownTime : MonoBehaviour
     public delegate void OnGameSessionFinished();
     public static OnGameSessionFinished onGameSessionFinished;
 
+    private int goldMeta = 2000;
+
+    public int delayGameFinish;
+    public int startDelayGameFinish;
+
     void Start()
     {
         startGameSessTransitionTime = gameSessTransitionTime;   
+        startDelayGameFinish = delayGameFinish;
         currentTime = startingTime;
         gameStateHandler = FindObjectOfType<GameStateHandler>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerGold = FindObjectOfType<PlayerGold>();
         UpdateCountDownText();
 
         gameSections = gameStateHandler.GetGameSections();
@@ -66,6 +76,15 @@ public class CountDownTime : MonoBehaviour
         {
             gameStateHandler.currentGameSection++;
             wasTheSessionCounted = true;
+        }
+        else{
+            if(playerGold.currentGold >  goldMeta)
+            {
+                gameWon.SetActive(true);
+            }
+            else{
+                gameOver.SetActive(true);
+            }
         }
 
         StartingNewGameSession();
