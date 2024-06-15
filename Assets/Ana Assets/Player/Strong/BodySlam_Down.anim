@@ -22,18 +22,18 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -1849281148, guid: 2c36f2c6c7ae95b4e8c7a55e28ca1a39, type: 3}
-    - time: 0.23333333
+    - time: 0.15555556
       value: {fileID: 191446615, guid: 2c36f2c6c7ae95b4e8c7a55e28ca1a39, type: 3}
-    - time: 0.43333334
+    - time: 0.2888889
       value: {fileID: -1291281176, guid: 2c36f2c6c7ae95b4e8c7a55e28ca1a39, type: 3}
-    - time: 0.6666667
+    - time: 0.44444445
       value: {fileID: 1484434816, guid: 2c36f2c6c7ae95b4e8c7a55e28ca1a39, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 30
+  m_SampleRate: 45
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -59,7 +59,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.70000005
+    m_StopTime: 0.46666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,4 +78,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.17777778
+    functionName: BodySlam
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

@@ -9,19 +9,22 @@ public class Movement : MonoBehaviour
     private Rigidbody2D rb;
 
     public bool canMove = true;
+    private CombatSkills combat;
 
     private void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();
         inputReader = GetComponent<InputReader>();
-
+        combat  = GetComponent<CombatSkills>();
         currentSpeed = moveSpeed;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (canMove)
         {
+            if(combat.isDashing) { return; }
+            if(combat.isSlaming) { return; }
             Move();
         }
     }

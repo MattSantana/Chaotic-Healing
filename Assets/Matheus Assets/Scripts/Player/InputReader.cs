@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class InputReader : MonoBehaviour
     private Inventory inventory;
     private PotionCrafting potionCrafting;
     private PlayerInventory playerInventory;
+    private CombatSkills combat;
 
     private Vector2 movement;
     private Vector2 lastMoveDirection;
@@ -17,6 +19,7 @@ public class InputReader : MonoBehaviour
         inventory = FindObjectOfType<Inventory>();
         potionCrafting = FindObjectOfType<PotionCrafting>();
         playerInventory = FindAnyObjectByType<PlayerInventory>();
+        combat  = GetComponent<CombatSkills>();
     }
 
     private void Update() 
@@ -46,17 +49,32 @@ public class InputReader : MonoBehaviour
     private void OnEnable() 
     {
         playerControls.Enable();
+        playerControls.Attack.Special.performed += SpecialAttack;
+        playerControls.Attack.Normal.performed += NormalAttack;
         playerControls.UI.ToggleInventory.performed += ToggleInventory;
         playerControls.UI.ZInteraction.performed += CreatePotion;
         playerControls.UI.ZInteraction.performed += Crafting;
         playerControls.UI.ZInteraction.performed += CollectItem;
     }
 
+    private void SpecialAttack(InputAction.CallbackContext context)
+    {
+        combat.SpecialAttack();
+    }
+
+    private void NormalAttack(InputAction.CallbackContext context)
+    {
+        if(combat.isDashing) { return; }
+        if(combat.isSlaming) {return;}
+
+        combat.NormalAttack();
+    }
+
     private void ToggleInventory(InputAction.CallbackContext context)
     {
         inventory.ToggleInventory();
     }
-
+    
     private void CreatePotion(InputAction.CallbackContext context)
     {
         potionCrafting.CreatePotion();
@@ -71,4 +89,5 @@ public class InputReader : MonoBehaviour
     {
         playerInventory.CollectOrMoveClosestItem();
     }
+
 }
